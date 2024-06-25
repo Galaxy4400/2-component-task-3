@@ -6,7 +6,7 @@ const CALCULATOR_OPERATIONS = ['÷', '×', '–', '+', '='];
 const CALCULATOR_NUMBERS = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.'];
 
 export function App() {
-	const [resultString, setResultString] = useState('');
+	const [displayString, setDisplayString] = useState('');
 	const [operand1, setOperand1] = useState('0');
 	const [operand2, setOperand2] = useState('');
 	const [operator, setOperator] = useState('');
@@ -14,7 +14,7 @@ export function App() {
 	const isOperator = Boolean(operator);
 
 	useEffect(() => {
-		setResultString(`${operand1} ${operator} ${operand2}`.trim());
+		setDisplayString(`${operand1} ${operator} ${operand2}`.trim());
 	}, [operand1, operator, operand2]);
 
 	function numberAction(symbol) {
@@ -34,6 +34,8 @@ export function App() {
 			setOperator(symbol);
 			return;
 		}
+
+		if (!operand2) return;
 
 		switch (operator) {
 			case '÷': {
@@ -84,7 +86,7 @@ export function App() {
 	return (
 		<div className="calculator">
 			<div className="calculator__display">
-				<input className="calculator__input" value={resultString} type="text" readOnly />
+				<input className="calculator__input" value={displayString} type="text" readOnly />
 			</div>
 			<div className="calculator__buttons calculator-buttons">
 				<div className="calculator-buttons__functions buttons">
