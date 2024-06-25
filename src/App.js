@@ -18,7 +18,13 @@ export function App() {
 	}, [operand1, operator, operand2]);
 
 	function numberAction(symbol) {
-		!isOperator ? setOperand1(operand1 + symbol) : setOperand2(operand2 + symbol);
+		let operand = !isOperator ? operand1 : operand2;
+
+		if (symbol === '.' && (!operand.length || operand.includes('.'))) return;
+
+		operand += symbol;
+
+		!isOperator ? setOperand1(operand) : setOperand2(operand);
 	}
 
 	function operationAction(symbol) {
