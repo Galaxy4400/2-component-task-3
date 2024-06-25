@@ -7,7 +7,7 @@ const CALCULATOR_NUMBERS = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.
 
 export function App() {
 	const [resultString, setResultString] = useState('');
-	const [operand1, setOperand1] = useState('');
+	const [operand1, setOperand1] = useState('0');
 	const [operand2, setOperand2] = useState('');
 	const [operator, setOperator] = useState('');
 
@@ -21,6 +21,8 @@ export function App() {
 		let operand = !isOperator ? operand1 : operand2;
 
 		if (symbol === '.' && (!operand.length || operand.includes('.'))) return;
+
+		if (operand === '0' && symbol !== '.') operand = '';
 
 		operand += symbol;
 
@@ -61,8 +63,7 @@ export function App() {
 	function functionAction(symbol) {
 		switch (symbol) {
 			case 'C': {
-				setResultString('');
-				setOperand1('');
+				setOperand1('0');
 				setOperand2('');
 				setOperator('');
 				break;
