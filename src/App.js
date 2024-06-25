@@ -14,15 +14,11 @@ export function App() {
 	const isOperator = Boolean(operator);
 
 	useEffect(() => {
-		setResultString((`${operand1} ${operator} ${operand2}`).trim());
+		setResultString(`${operand1} ${operator} ${operand2}`.trim());
 	}, [operand1, operator, operand2]);
 
 	function numberAction(symbol) {
-		if (!isOperator) {
-			setOperand1(operand1 + symbol);
-		} else {
-			setOperand2(operand2 + symbol);
-		}
+		!isOperator ? setOperand1(operand1 + symbol) : setOperand2(operand2 + symbol);
 	}
 
 	function operationAction(symbol) {
@@ -66,11 +62,7 @@ export function App() {
 				break;
 			}
 			case '±': {
-				if (!isOperator) {
-					setOperand1(String(-Number(operand1)));
-				} else {
-					setOperand2(String(-Number(operand2)));
-				}
+				!isOperator ? setOperand1(String(-Number(operand1))) : setOperand2(String(-Number(operand2)));
 				break;
 			}
 			case '%': {
