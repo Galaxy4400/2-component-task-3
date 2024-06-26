@@ -35,6 +35,11 @@ export function App() {
 			return;
 		}
 
+		if (symbol === '=' && isOperator && !operand2) {
+			setOperator('');
+			return;
+		}
+
 		switch (operator) {
 			case '÷': {
 				setOperand1(+operand1 / +operand2);
@@ -56,7 +61,7 @@ export function App() {
 				break;
 		}
 
-		setOperator(symbol === '=' ? '' : symbol);
+		setOperator('');
 		setOperand2('');
 	}
 
