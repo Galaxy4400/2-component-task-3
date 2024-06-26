@@ -30,12 +30,10 @@ export function App() {
 	}
 
 	function operationAction(symbol) {
-		if (symbol !== '=') {
+		if (symbol !== '=' && !operand2) {
 			setOperator(symbol);
 			return;
 		}
-
-		if (!operand2) return;
 
 		switch (operator) {
 			case '÷': {
@@ -58,7 +56,7 @@ export function App() {
 				break;
 		}
 
-		setOperator('');
+		setOperator(symbol === '=' ? '' : symbol);
 		setOperand2('');
 	}
 
@@ -89,21 +87,21 @@ export function App() {
 				<input className="calculator__input" value={displayString} type="text" readOnly />
 			</div>
 			<div className="calculator__buttons calculator-buttons">
-				<div className="calculator-buttons__functions buttons">
+				<div className="calculator-buttons__functions buttons-group">
 					{CALCULATOR_FUNCTIONS.map((symbol, i) => (
 						<button className="button button_dark" type="button" key={i} onClick={() => functionAction(symbol)}>
 							{symbol}
 						</button>
 					))}
 				</div>
-				<div className="calculator-buttons__operations buttons">
+				<div className="calculator-buttons__operations buttons-group">
 					{CALCULATOR_OPERATIONS.map((symbol, i) => (
 						<button className="button button_orange" type="button" key={i} onClick={() => operationAction(symbol)}>
 							{symbol}
 						</button>
 					))}
 				</div>
-				<div className="calculator-buttons__numbers buttons">
+				<div className="calculator-buttons__numbers buttons-group">
 					{CALCULATOR_NUMBERS.map((symbol, i) => (
 						<button
 							className={`button button_gray${symbol === '0' ? ' button_big' : ''}`}
