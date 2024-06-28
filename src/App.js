@@ -109,7 +109,7 @@ export function App() {
 				<div className="calculator-buttons__numbers buttons-group">
 					{CALCULATOR_NUMBERS.map((symbol, i) => (
 						<button
-							className={`button button_gray${symbol === '0' ? ' button_big' : ''}`}
+							className={`button button_gray ${symbol === '0' ? 'button_big' : ''}`}
 							type="button"
 							key={i}
 							onClick={() => numberAction(symbol)}
