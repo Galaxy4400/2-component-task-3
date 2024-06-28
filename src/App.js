@@ -61,7 +61,6 @@ export function App() {
 				break;
 		}
 
-		setOperator('');
 		setOperand2('');
 	}
 
