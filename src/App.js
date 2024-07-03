@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import './app.scss';
-
-const CALCULATOR_FUNCTIONS = ['C', '±', '%'];
-const CALCULATOR_OPERATIONS = ['÷', '×', '–', '+', '='];
-const CALCULATOR_NUMBERS = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.'];
+import { getButtons } from './get-buttons';
 
 export function App() {
 	const [displayString, setDisplayString] = useState('');
@@ -11,80 +8,22 @@ export function App() {
 	const [operand2, setOperand2] = useState('');
 	const [operator, setOperator] = useState('');
 
-	const isOperator = Boolean(operator);
+	const state = {
+		displayString,
+		setDisplayString,
+		operand1,
+		setOperand1,
+		operand2,
+		setOperand2,
+		operator,
+		setOperator,
+	};
+
+	const buttons = getButtons(state);
 
 	useEffect(() => {
 		setDisplayString(`${operand1} ${operator} ${operand2}`.trim());
 	}, [operand1, operator, operand2]);
-
-	function numberAction(symbol) {
-		let operand = !isOperator ? operand1 : operand2;
-
-		if (symbol === '.' && (!operand.length || operand.includes('.'))) return;
-
-		if (operand === '0' && symbol !== '.') operand = '';
-
-		operand += symbol;
-
-		!isOperator ? setOperand1(operand) : setOperand2(operand);
-	}
-
-	function operationAction(symbol) {
-		if (symbol !== '=' && !operand2) {
-			setOperator(symbol);
-			return;
-		}
-
-		if (symbol === '=' && isOperator && !operand2) {
-			setOperator('');
-			return;
-		}
-
-		switch (operator) {
-			case '÷': {
-				setOperand1(+operand1 / +operand2);
-				break;
-			}
-			case '×': {
-				setOperand1(+operand1 * +operand2);
-				break;
-			}
-			case '–': {
-				setOperand1(+operand1 - +operand2);
-				break;
-			}
-			case '+': {
-				setOperand1(+operand1 + +operand2);
-				break;
-			}
-			default:
-				break;
-		}
-
-		setOperator(symbol !== '=' ? symbol : '');
-		setOperand2('');
-	}
-
-	function functionAction(symbol) {
-		switch (symbol) {
-			case 'C': {
-				setOperand1('0');
-				setOperand2('');
-				setOperator('');
-				break;
-			}
-			case '±': {
-				!isOperator ? setOperand1(String(-Number(operand1))) : setOperand2(String(-Number(operand2)));
-				break;
-			}
-			case '%': {
-				setOperand1(operand1 / 100);
-				break;
-			}
-			default:
-				break;
-		}
-	}
 
 	return (
 		<div className="calculator">
@@ -93,26 +32,36 @@ export function App() {
 			</div>
 			<div className="calculator__buttons calculator-buttons">
 				<div className="calculator-buttons__functions buttons-group">
-					{CALCULATOR_FUNCTIONS.map((symbol, i) => (
-						<button className="button button_dark" type="button" key={i} onClick={() => functionAction(symbol)}>
+					{buttons.functions.symbols.map((symbol, i) => (
+						<button
+							className="button button_dark"
+							type="button"
+							key={i}
+							onClick={() => buttons.functions.handler(symbol)}
+						>
 							{symbol}
 						</button>
 					))}
 				</div>
 				<div className="calculator-buttons__operations buttons-group">
-					{CALCULATOR_OPERATIONS.map((symbol, i) => (
-						<button className="button button_orange" type="button" key={i} onClick={() => operationAction(symbol)}>
+					{buttons.operations.symbols.map((symbol, i) => (
+						<button
+							className="button button_orange"
+							type="button"
+							key={i}
+							onClick={() => buttons.operations.handler(symbol)}
+						>
 							{symbol}
 						</button>
 					))}
 				</div>
 				<div className="calculator-buttons__numbers buttons-group">
-					{CALCULATOR_NUMBERS.map((symbol, i) => (
+					{buttons.numbers.symbols.map((symbol, i) => (
 						<button
 							className={`button button_gray ${symbol === '0' ? 'button_big' : ''}`}
 							type="button"
 							key={i}
-							onClick={() => numberAction(symbol)}
+							onClick={() => buttons.numbers.handler(symbol)}
 						>
 							{symbol}
 						</button>
