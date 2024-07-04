@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
 import './app.scss';
-import { getButtons } from './get-buttons';
+import { useEffect, useState } from 'react';
+import { buttons } from './buttons';
+import { GROUP } from './constants';
+import { Button } from './components/button';
 
 export function App() {
 	const [displayString, setDisplayString] = useState('');
@@ -19,8 +21,6 @@ export function App() {
 		setOperator,
 	};
 
-	const buttons = getButtons(state);
-
 	useEffect(() => {
 		setDisplayString(`${operand1} ${operator} ${operand2}`.trim());
 	}, [operand1, operator, operand2]);
@@ -32,39 +32,18 @@ export function App() {
 			</div>
 			<div className="calculator__buttons calculator-buttons">
 				<div className="calculator-buttons__functions buttons-group">
-					{buttons.functions.symbols.map((symbol, i) => (
-						<button
-							className="button button_dark"
-							type="button"
-							key={i}
-							onClick={() => buttons.functions.handler(symbol)}
-						>
-							{symbol}
-						</button>
+					{buttons[GROUP.FUNCTIONS].map(({name, handler}, i) => (
+						<Button symbol={name} handler={handler} key={i} state={state} group={GROUP.FUNCTIONS} />
 					))}
 				</div>
 				<div className="calculator-buttons__operations buttons-group">
-					{buttons.operations.symbols.map((symbol, i) => (
-						<button
-							className="button button_orange"
-							type="button"
-							key={i}
-							onClick={() => buttons.operations.handler(symbol)}
-						>
-							{symbol}
-						</button>
+					{buttons[GROUP.OPERATIONS].map(({name, handler}, i) => (
+						<Button symbol={name} handler={handler} key={i} state={state} group={GROUP.OPERATIONS} />
 					))}
 				</div>
 				<div className="calculator-buttons__numbers buttons-group">
-					{buttons.numbers.symbols.map((symbol, i) => (
-						<button
-							className={`button button_gray ${symbol === '0' ? 'button_big' : ''}`}
-							type="button"
-							key={i}
-							onClick={() => buttons.numbers.handler(symbol)}
-						>
-							{symbol}
-						</button>
+					{buttons[GROUP.NUMBERS].map(({name, handler}, i) => (
+						<Button symbol={name} handler={handler} key={i} state={state} group={GROUP.NUMBERS} />
 					))}
 				</div>
 			</div>
