@@ -1,14 +1,14 @@
 import './app.scss';
 import { useEffect, useState } from 'react';
 import { buttons } from './buttons';
-import { GROUP } from './constants';
+import { GROUP, NUM, OPERATOR } from './constants';
 import { Button } from './components/button';
 
 export function App() {
 	const [displayString, setDisplayString] = useState('');
-	const [operand1, setOperand1] = useState('0');
-	const [operand2, setOperand2] = useState('');
-	const [operator, setOperator] = useState('');
+	const [operand1, setOperand1] = useState(NUM.ZERO);
+	const [operand2, setOperand2] = useState(NUM.NONE);
+	const [operator, setOperator] = useState(OPERATOR.NONE);
 
 	const state = {
 		displayString,
